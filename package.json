@@ -1,0 +1,23 @@
+{
+  "name": "GrabOp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vladtitov/GrabOp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladtitov/GrabOp/issues"
+  },
+  "homepage": "https://github.com/vladtitov/GrabOp",
+  "dependencies": {
+    "express": "^4.13.4",
+    "express-stormpath": "^3.1.2"
+  }
+}
