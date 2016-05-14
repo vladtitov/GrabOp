@@ -3,20 +3,30 @@
  */
 /// <reference path="typings/express/express.d.ts" />
 /// <reference path="typings/body-parser/body-parser.d.ts" />
+///<reference path="typings/express-session/express-session.d.ts"/>
+///<reference path="typings/cookie-parser/cookie-parser.d.ts"/>
 "use strict";
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var DAO = require('./db-connector');
+var session = require('express-session');
+var cookie = require('cookie-parser');
+var DAO = require('./db-users');
 var userDAO = new DAO.UserDAO();
 // configure our app to use bodyParser(it let us get the json data from a POST)
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(function (req, res, next) {
+app.use(cookie());
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: 'somesecrettokenhere'
+}));
+app.use('/api', bodyParser.urlencoded({ extended: true }));
+app.use('/api', bodyParser.json());
+/*app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-});
+});*/
 var port = process.env.PORT || 8080;
 var router = express.Router();
 router.get('/user/:id', function (req, res) {
@@ -36,6 +46,14 @@ router.put('/user', function (req, res) {
 router.delete('/user/:id', function (req, res) {
     res.json({ result: userDAO.delete(req.params.id) });
     userDAO.save(function () { });
+});
+router.post('/user/login', function (req, res) {
+    var user = userDAO.login(req.body);
+    var out = {};
+    if (user) {
+        out.result = 'logrdin';
+    }
+    res.json(out);
 });
 // prefixed all routes with /api
 app.use('/api', router);

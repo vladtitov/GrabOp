@@ -18,6 +18,7 @@ var UserDAO = (function () {
             if (err)
                 throw err;
             var obj = JSON.parse(data);
+            _this._users = obj;
             _this.users = _this._.keyBy(obj, 'id');
         });
     }
@@ -53,10 +54,17 @@ var UserDAO = (function () {
         this.users[id] = null;
         return true;
     };
+    UserDAO.prototype.login = function (user) {
+        this._users.forEach(function (item) {
+            if (item.username == user.username && item.password == user.password)
+                return item;
+        });
+        return null;
+    };
     UserDAO.prototype.getAll = function () {
         return this.users;
     };
     return UserDAO;
 }());
 exports.UserDAO = UserDAO;
-//# sourceMappingURL=db-connector.js.map
+//# sourceMappingURL=db-users.js.map

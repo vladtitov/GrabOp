@@ -1,7 +1,7 @@
 /**
  * Created by Vlad on 5/13/2016.
  */
-module Model {
+module VO {
     export interface Identifiable {
         id?: number;
     }
@@ -9,7 +9,9 @@ module Model {
     export interface User extends Identifiable {
         firstname: string;
         lastname: string;
-        age: number;
+        username:string;
+        password:string;
+        email:string;
     }
 
 
