@@ -2,10 +2,8 @@
  * Created by Vlad on 5/14/2016.
  */
 /// <reference path="dao.ts" />
-///<reference path="typings/lodash/lodash.d.ts"/>
-///<reference path="typings/node/node.d.ts"/>
-
-
+///<reference path="../typings/lodash/lodash.d.ts"/>
+///<reference path="../typings/node/node.d.ts"/>
 
 import * as _ from 'lodash';
 var fs = require('fs');
@@ -13,6 +11,7 @@ export class UserDAO implements DAO.DAO<Model.User> {
     private id:number;
     private url:string='data/users.json';
     private users:{ [id:number]:Model.User; };
+    private _users:VO.User
     private fs=fs;
     private _=_;
     constructor() {
@@ -55,6 +54,9 @@ export class UserDAO implements DAO.DAO<Model.User> {
         }
         this.users[id] = null;
         return true;
+    }
+    login(user:string,pass:string):void{
+
     }
     getAll():any{
         return this.users;
