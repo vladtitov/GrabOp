@@ -15,7 +15,7 @@ import * as bodyParser from 'body-parser';
 import * as session from 'express-session';
 import * as cookie from 'cookie-parser';
 
-import DAO = require('./serv/db-users');
+import DAO = require('./server/db-users');
 const userDAO:DAO.UserDAO = new DAO.UserDAO();
 // configure our app to use bodyParser(it let us get the json data from a POST)
 app.use(cookie());
