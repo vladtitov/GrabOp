@@ -11,7 +11,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookie = require('cookie-parser');
-var DAO = require('./db-users');
+var DAO = require('./serv/db-users');
 var userDAO = new DAO.UserDAO();
 // configure our app to use bodyParser(it let us get the json data from a POST)
 app.use(cookie());
@@ -22,6 +22,7 @@ app.use(session({
 }));
 app.use('/api', bodyParser.urlencoded({ extended: true }));
 app.use('/api', bodyParser.json());
+app.use(express.static(__dirname + '/pub'));
 /*app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
