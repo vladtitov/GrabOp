@@ -7,6 +7,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var DAO = require('./db-connector');
+var userDAO = new DAO.UserDAO();
 // configure our app to use bodyParser(it let us get the json data from a POST)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -17,8 +19,21 @@ app.use(function (req, res, next) {
 });
 var port = process.env.PORT || 8080;
 var router = express.Router();
-router.get('/', function (req, res) {
-    res.json({ message: 'welcome' });
+router.get('/user/:id', function (req, res) {
+    res.json(userDAO.read(req.params.id));
+});
+router.get('/user', function (req, res) {
+    res.json(userDAO.getAll());
+});
+router.post('/user', function (req, res) {
+    console.log(req.body);
+    res.json(userDAO.create(req.body));
+});
+router.put('/user', function (req, res) {
+    res.json({ result: userDAO.update(req.body) });
+});
+router.delete('/user/:id', function (req, res) {
+    res.json({ result: userDAO.delete(req.params.id) });
 });
 // prefixed all routes with /api
 app.use('/api', router);
