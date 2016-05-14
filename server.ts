@@ -57,7 +57,7 @@ router.post('/user/login', function (req, res) {
     var user = userDAO.login(req.body);
     var out:any = {};
     if(user){
-        out.result='logrdin';
+        out.result='logedin';
     }
     res.json(out);
 });
