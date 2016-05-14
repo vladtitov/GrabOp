@@ -31,14 +31,16 @@ router.get('/user', function (req, res) {
     res.json(userDAO.getAll());
 })
 router.post('/user', function (req, res) {
-    console.log(req.body);
     res.json(userDAO.create(req.body));
+    userDAO.save(()=>{})
 })
 router.put('/user', function (req, res) {
     res.json({result : userDAO.update(req.body)});
+    userDAO.save(()=>{})
 });
 router.delete('/user/:id', function (req, res) {
     res.json({result : userDAO.delete(req.params.id)});
+    userDAO.save(()=>{})
 });
 // prefixed all routes with /api
 app.use('/api', router);

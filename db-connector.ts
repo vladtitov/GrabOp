@@ -12,21 +12,26 @@ var fs = require('fs');
 export class UserDAO implements DAO.DAO<Model.User> {
     private id:number;
     private url:string='data/users.json';
-    private users:{ [id:number]:Model.User; }
+    private users:{ [id:number]:Model.User; };
+    private fs=fs;
+    private _=_;
     constructor() {
         this.id = 1;
-        fs.readFile(this.url, 'utf8',(err, data)=>{
+        this.fs.readFile(this.url, 'utf8',(err, data)=>{
             if (err) throw err;
             var obj:Model.User[] = JSON.parse(data);
-            this.users = _.keyBy(obj,'id');
+            this.users = this._.keyBy(obj,'id');
         });
-
-
-
     }
 
-    private save():boolean{
-        return true;
+    save(callBack:Function):void{
+        this.fs.writeFile(this.url, JSON.stringify(this.users), (err)=> {
+            if(err) {
+                console.log(err);
+                callBack(false)
+            }
+            callBack(true);
+        });
     }
     create(user:Model.User) {
         user.id = this.id;
